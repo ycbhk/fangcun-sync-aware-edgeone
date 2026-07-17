@@ -1,0 +1,5 @@
+{
+  "name": "fangcun-sync-aware-edgeone",
+  "functionsDirectory": "cloud-functions",
+  "edgeFunctionsDirectory": "edge-functions"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "fangcun-sync-aware-edgeone",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tencent EdgeOne Makers Cloud Functions + Blob sync awareness relay for Fangcun Toolbox.",
+  "scripts": {
+    "deploy": "edgeone pages deploy",
+    "dev": "edgeone pages dev"
+  },
+  "dependencies": {
+    "@edgeone/pages-blob": "^1.0.0"
+  },
+  "license": "MIT"
+}
