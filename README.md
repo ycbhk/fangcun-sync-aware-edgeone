@@ -41,8 +41,9 @@ https://your-project.edgeone.app
 
 ## 协议
 
-- `POST /sync/v1/events`
-- `GET /sync/v1/events?since=<cursor>&limit=50`
-- `GET /sync/v1/health`
+- `POST /sync/v1/events`：上报同步完成事件
+- `GET /sync/v1/events?since=<cursor>&limit=50`：拉取某个游标之后的新事件
+- `GET /sync/v1/health`：健康检查接口
 
 所有请求都由插件进行 HMAC 签名。中继只保存事件元数据，不接触 S3/WebDAV 凭据，也不接触笔记数据。
+
