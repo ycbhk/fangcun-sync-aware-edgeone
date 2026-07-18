@@ -46,15 +46,15 @@ async function verifySignedRequest(request, body = "") {
   const nonce = request.headers.get("x-fc-nonce") || "";
   const signature = request.headers.get("x-fc-signature") || "";
   if (!channelId || !deviceId || !timestamp || !nonce || !signature) {
-    return { ok: false, status: 401, message: "Missing sync awareness signature headers." };
+    return { ok: false, status: 401, message: "缺少同步感知签名请求头。" };
   }
-  if (!process.env.SYNC_AWARE_SECRET) return { ok: false, status: 500, message: "SYNC_AWARE_SECRET is not configured." };
+  if (!process.env.SYNC_AWARE_SECRET) return { ok: false, status: 500, message: "SYNC_AWARE_SECRET 未配置。" };
   const ts = Number(timestamp);
   if (!Number.isFinite(ts) || Math.abs(Date.now() - ts) > TIME_SKEW_MS) {
-    return { ok: false, status: 401, message: "Signature timestamp is outside the allowed clock window." };
+    return { ok: false, status: 401, message: "签名时间戳超出允许的时钟窗口。" };
   }
   const expected = await hmac(process.env.SYNC_AWARE_SECRET, `${request.method.toUpperCase()}\n${url.pathname}\n${timestamp}\n${nonce}\n${body}`);
-  if (!constantTimeEqual(expected, signature)) return { ok: false, status: 401, message: "Invalid sync awareness signature." };
+  if (!constantTimeEqual(expected, signature)) return { ok: false, status: 401, message: "同步感知签名无效。" };
   return { ok: true, channelId };
 }
 
@@ -126,7 +126,7 @@ async function appendEvent(store, channelId, event) {
 async function handle(request) {
   if (request.method === "OPTIONS") return json({ ok: true });
   const url = new URL(request.url);
-  if (!url.pathname.startsWith("/sync/v1/")) return json({ ok: false, message: "Not found" }, 404);
+  if (!url.pathname.startsWith("/sync/v1/")) return json({ ok: false, message: "未找到" }, 404);
   const body = request.method === "POST" ? await request.text() : "";
   const auth = await verifySignedRequest(request, body);
   if (!auth.ok) return json({ ok: false, message: auth.message }, auth.status);
@@ -144,13 +144,13 @@ async function handle(request) {
   if (url.pathname === "/sync/v1/events" && request.method === "POST") {
     const event = JSON.parse(body || "{}");
     if (!event.id || event.channelId !== auth.channelId || !event.deviceId || !event.createdAt) {
-      return json({ ok: false, message: "Invalid sync awareness event." }, 400);
+      return json({ ok: false, message: "同步感知事件无效。" }, 400);
     }
     await appendEvent(store, auth.channelId, event);
     return json({ ok: true });
   }
 
-  return json({ ok: false, message: "Not found" }, 404);
+  return json({ ok: false, message: "未找到" }, 404);
 }
 
 export default {
@@ -158,3 +158,4 @@ export default {
     return handle(request).catch((error) => json({ ok: false, message: error instanceof Error ? error.message : "Internal error" }, 500));
   },
 };
+
