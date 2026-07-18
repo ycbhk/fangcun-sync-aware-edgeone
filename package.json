@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Tencent EdgeOne Makers Cloud Functions + Blob sync awareness relay for Fangcun Toolbox.",
+  "description": "方寸工具箱同步感知的腾讯 EdgeOne Makers Cloud Functions + Blob 中继服务。",
   "scripts": {
     "deploy": "edgeone pages deploy",
     "dev": "edgeone pages dev"
