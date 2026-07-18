@@ -14,6 +14,7 @@
 3. 配置环境变量：
 
 ```text
+# 替换成你自己的长随机密钥
 SYNC_AWARE_SECRET=replace-with-a-long-random-secret
 BLOB_STORE_NAME=fangcun-sync-aware
 RETENTION_MS=259200000
